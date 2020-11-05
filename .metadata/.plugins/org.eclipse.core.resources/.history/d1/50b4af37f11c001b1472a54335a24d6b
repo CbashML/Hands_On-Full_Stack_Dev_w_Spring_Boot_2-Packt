@@ -1,0 +1,13 @@
+package com.packt.cardatabase.domain;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Owner {
+
+	@Id
+	@GenerateValue(strategy=GenerationType.AUTO)
+	private long ownerid;
+	private String firstname, lastname;
+	
+}
