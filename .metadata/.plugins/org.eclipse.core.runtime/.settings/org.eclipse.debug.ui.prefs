@@ -1,6 +1,6 @@
 Console.highWaterMark=88000
 Console.interpret_cr_as_control_characters=false
-Console.width=160
+Console.width=101
 Console.wrap=true
 eclipse.preferences.version=1
 org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<launchPerspectives/>\n

@@ -24,3 +24,6 @@ hs_err_pid*
 
 # Spring application properties
 cardatabase/src/main/resources/*.properties
+
+# Metadata
+.metadata
