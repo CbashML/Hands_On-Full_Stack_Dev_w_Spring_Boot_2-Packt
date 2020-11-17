@@ -25,6 +25,19 @@
 
 	<dependencies>
 	
+		<!-- JSON Web Token (JWT) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		
+		<!-- If Java version > Java 9  for use JWT -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+			
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

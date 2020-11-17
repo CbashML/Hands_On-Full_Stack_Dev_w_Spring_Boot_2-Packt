@@ -12,6 +12,7 @@ import com.packt.cardatabase.domain.Car;
 import com.packt.cardatabase.domain.CarRepository;
 import com.packt.cardatabase.domain.Owner;
 import com.packt.cardatabase.domain.OwnerRepository;
+import com.packt.cardatabase.domain.UserRepository;
 
 @SpringBootApplication
 public class CardatabaseApplication {
@@ -22,6 +23,9 @@ public class CardatabaseApplication {
 
 	@Autowired
 	private OwnerRepository orepository;
+	
+	@Autowired
+	private UserRepository urepository;
 
 	public static void main(String[] args) {
 		// After adding this comment the application is restarted
@@ -46,6 +50,7 @@ public class CardatabaseApplication {
 			repository.save(car2);
 			repository.save(car3);
 
+			
 		};
 	}
 
