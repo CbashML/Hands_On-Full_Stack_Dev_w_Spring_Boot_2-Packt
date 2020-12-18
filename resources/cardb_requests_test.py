@@ -13,29 +13,29 @@ For consume RESTful APIs HTTP requests, I prefered create a little script about.
 '''
 
 port = "8081"
-url_api_endpoint = "http://localhost:{port}/api".format(port=port)
-api_key = b64encode(s=b"CarDatabase:abcd1234").decode('UTF-8')
-
+url_api_root = "http://localhost:{port}".format(port=port)
+url_api_endpoint = "{url_api_root}/api".format(url_api_root=url_api_root)
 
 class CarDatabaseRequest(object):
 
-    def __init__(self, *args):
+    def __init__(self, *args, username: str, password: str):
         super(CarDatabaseRequest, self).__init__(*args)
-        self.__session()
+        self.__login(username, password)
+        if self.__token:
+           self.__session()
+        
 
     def __session(self) -> requests.Session:
         session = requests.Session()
         session.headers.update(self.__get_headers())
-        session.auth = HTTPBasicAuth('CarDatabase', 'abcd1234')
         session.verify = False
         self.__session = session
 
-    @ staticmethod
-    def __get_headers():
+    def __get_headers(self):
         headers = {
             'Content-Type': 'application/json',
             'Cache-Control': 'no-cache',
-            # 'Authorization': 'Basic {api_key}'.format(api_key=api_key)
+            'Authorization': 'Bearer {token}'.format(token=self.__token)
         }
         return headers
 
@@ -50,11 +50,9 @@ class CarDatabaseRequest(object):
             url=endpoint,
             data=json.dumps(payload),
             headers=self.__get_headers(),
-            # auth=HTTPBasicAuth('CarDatabase', 'abcd1234')
         )
         return response
 
-    @ staticmethod
     def __start_patch_request(self, endpoint: str, payload: Dict):
         response = self.__session.patch(
             url=endpoint,
@@ -62,7 +60,6 @@ class CarDatabaseRequest(object):
         )
         return response
 
-    @ staticmethod
     def __start_delete_request(self, endpoint: str):
         response = self.__session.delete(
             url=endpoint
@@ -79,11 +76,11 @@ class CarDatabaseRequest(object):
             )
             return response.json()
         except json.decoder.JSONDecodeError as eMsg:
+            print(f"json.decoder.JSONDecodeError: {eMsg}")
             self.json_printer(
                 response.json()
             )
             return response.json()
-            print(f"json.decoder.JSONDecodeError: {eMsg}")
 
     def get(self, endpoint):
         print(f"\nGET: {endpoint}")
@@ -122,6 +119,31 @@ class CarDatabaseRequest(object):
         print(response)
         print(response.text)
         return response
+
+    def __login(self, username, password):
+        endpoint = ("{url}/login"
+                    .format(
+                        url=url_api_root
+                    ))
+        print(f"\nPOST: {endpoint}")
+        headers = {
+                'Content-Type': 'text/plain',
+                'Cache-Control': 'no-cache',
+                }
+        payload="{\"username\":\"admin\", \"password\":\"admin\"}"
+        response = requests.request(
+            method="POST",
+            url=endpoint,
+            headers=headers,
+            data=payload
+        )
+        print(f"HEADER: {response.headers}")
+        print(f"TEXT: {response.text}")
+        print(f"CONTENT: {response.content}")
+        print(f"JSON: {response.json} ///")
+        if response.status_code == 200:
+            print(f"AUTH-TOKEN: {response.headers['Authorization'][7:]}")
+            self.__token = response.headers['Authorization'][7:] 
 
     def get_api(self):
         print(f"\nGET : API")
@@ -247,7 +269,7 @@ class CarDatabaseRequest(object):
         print(json_to_print)
 
 
-def post_cars(carDBRequest: CarDatabaseRequest = CarDatabaseRequest):
+def post_cars(carDBRequest: CarDatabaseRequest):
     parameters = {
         "brand": "Lamborghini",
         "model": "Aventador",
@@ -255,12 +277,13 @@ def post_cars(carDBRequest: CarDatabaseRequest = CarDatabaseRequest):
         "year": 2021,
         "price": 411000
     }
-    carDBRequest.post_car(
-        params=parameters
-    )
+    for _ in range(2):
+        carDBRequest.post_car(
+            params=parameters
+        )
 
 
-def patch_cars(carDBRequest: CarDatabaseRequest = CarDatabaseRequest):
+def patch_cars(carDBRequest: CarDatabaseRequest):
     endpoint = ("{url_api_endpoint}/owners/{owner_id}"
                 .format(
                     url_api_endpoint=url_api_endpoint,
@@ -273,45 +296,46 @@ def patch_cars(carDBRequest: CarDatabaseRequest = CarDatabaseRequest):
         "owner": endpoint
     }
     carDBRequest.patch_car(
-        car_id=6,
+        car_id=getCarID(),
         params=parameters
     )
 
 
-def delete_cars(carDBRequest: CarDatabaseRequest = CarDatabaseRequest):
-    carDBRequest.delete_car(
-        car_id=6
-    )
+def delete_cars(carDBRequest: CarDatabaseRequest):
+    carDBRequest.delete_car(car_id=getCarID())
 
 
-def run_getters(carDBRequest: CarDatabaseRequest = CarDatabaseRequest()):
+def run_getters(carDBRequest: CarDatabaseRequest):
     # carDBRequest.get_api()
     carDBRequest.get_cars()
-    # carDBRequest.get_owners()
-    # carDBRequest.get_car(car_id=3)
-    # carDBRequest.get_owner(owner_id=1)
+    carDBRequest.get_owners()
+    carDBRequest.get_car(car_id=3)
+    carDBRequest.get_owner(owner_id=1)
     # carDBRequest.get_owner_from_car(car_id=3)
     # carDBRequest.get_cars_from_owner(owner_id=2)
 
 
-def run_posts(carDBRequest: CarDatabaseRequest = CarDatabaseRequest()):
+def run_posts(carDBRequest: CarDatabaseRequest):
     post_cars(carDBRequest)
 
 
-def run_patches(carDBRequest: CarDatabaseRequest = CarDatabaseRequest()):
+def run_patches(carDBRequest: CarDatabaseRequest):
     patch_cars(carDBRequest)
 
 
-def run_deletes(carDBRequest: CarDatabaseRequest = CarDatabaseRequest()):
+def run_deletes(carDBRequest: CarDatabaseRequest):
     delete_cars(carDBRequest)
 
+def getCarID() -> int:
+    return 8
 
 def main():
-    run_getters()
-    run_posts()
-    # run_patches()
-    # run_getters()
-    # run_deletes()
+    carDB = CarDatabaseRequest(username="admin",password="admin")
+    run_getters(carDB)
+    run_posts(carDB)
+    run_patches(carDB)
+    run_getters(carDB)
+    run_deletes(carDB)
 
 
 if __name__ == '__main__':
