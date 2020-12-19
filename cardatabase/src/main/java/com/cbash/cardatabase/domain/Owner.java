@@ -1,4 +1,4 @@
-package com.packt.cardatabase.domain;
+package com.cbash.cardatabase.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.GenerationType;

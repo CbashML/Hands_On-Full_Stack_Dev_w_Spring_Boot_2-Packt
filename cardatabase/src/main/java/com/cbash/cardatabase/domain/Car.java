@@ -1,18 +1,23 @@
-package com.packt.cardatabase.domain;
+package com.cbash.cardatabase.domain;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@javax.persistence.Entity
+@Entity
 public class Car {
-	@javax.persistence.Id
-	@javax.persistence.GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String brand, model, color, registerNumber;
 	private int year, price;
 
-	@javax.persistence.ManyToOne(fetch = FetchType.LAZY)
-	@javax.persistence.JoinColumn(name = "owner")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner")
 	private Owner owner;
 	
 	public Car() {}
