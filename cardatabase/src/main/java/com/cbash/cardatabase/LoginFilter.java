@@ -30,7 +30,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest reqst, HttpServletResponse respns)
 			throws AuthenticationException, IOException, ServletException {	
-//		System.out.println("INPUT STREAM:" + reqst.getInputStream());
+		System.out.println("INPUT STREAM:" + reqst.getInputStream().read());
 		System.out.println(
 				"\nUSERNAME: " + reqst.getParameter("username") 
 		+ "\nAUTH_TYPE: " + reqst.getAuthType()
@@ -41,10 +41,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter
 						reqst.getInputStream(), 
 						AccountCredentials.class
 						);
-		
+
 		System.out.println(
-				"\nUSERNAME : " + credtls.getUsername()
-				+ "\nPASSWORD : " + credtls.getPassword()
+				credtls.getUsername()
 				);
 		return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(
