@@ -1,6 +1,6 @@
 package com.cbash.cardatabase;
 
-import java.io.IOException;import java.util.Collection;
+import java.io.IOException;
 import java.util.Collections;
 
 import javax.servlet.ServletException;
@@ -28,23 +28,16 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest reqst, HttpServletResponse respns)
+	public Authentication attemptAuthentication(
+			HttpServletRequest reqst, HttpServletResponse respns)
 			throws AuthenticationException, IOException, ServletException {	
-		System.out.println("INPUT STREAM:" + reqst.getInputStream().read());
-		System.out.println(
-				"\nUSERNAME: " + reqst.getParameter("username") 
-		+ "\nAUTH_TYPE: " + reqst.getAuthType()
-//		+ "\nREADER: " + reqst.getReader()
-				);
+		
 		AccountCredentials credtls = new ObjectMapper()
 				.readValue(
 						reqst.getInputStream(), 
 						AccountCredentials.class
 						);
 
-		System.out.println(
-				credtls.getUsername()
-				);
 		return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(
 							credtls.getUsername(),
@@ -52,21 +45,13 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter
 							Collections.emptyList()
 							)
 				);
-		
-//		String username = reqst.getParameter("username");
-//		String password = reqst.getParameter("password");
-//		System.out.printf("\nUSER: %s, PASS: %s", username, password);
-//		return new UsernamePasswordAuthenticationToken(
-//				username, 
-//				password,
-//				Collections.emptyList()
-//			);
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest reqst, HttpServletResponse respns, FilterChain chain,
-			Authentication auth) throws IOException, ServletException {
-//		super.successfulAuthentication(reqst, respns, chain, auth);
+	protected void successfulAuthentication(
+			HttpServletRequest reqst, HttpServletResponse respns,
+			FilterChain chain, Authentication auth
+			) throws IOException, ServletException {
 		AuthenticationService.addToken(respns, auth.getName());
 	}
 	

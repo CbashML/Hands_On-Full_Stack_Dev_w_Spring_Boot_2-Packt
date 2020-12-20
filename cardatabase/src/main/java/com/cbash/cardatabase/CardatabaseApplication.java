@@ -1,7 +1,5 @@
 package com.cbash.cardatabase;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,13 +13,11 @@ import com.cbash.cardatabase.domain.OwnerRepository;
 import com.cbash.cardatabase.domain.User;
 import com.cbash.cardatabase.domain.UserRepository;
 
-import org.springframework.security.config.authentication.PasswordEncoderParser;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class CardatabaseApplication {
-//	private static final Logger logger = LoggerFactory.getLogger(CardatabaseApplication.class);
 
 	@Autowired
 	private CarRepository repository;
@@ -35,7 +31,6 @@ public class CardatabaseApplication {
 	public static void main(String[] args) {
 		// After adding this comment the application is restarted
 		SpringApplication.run(CardatabaseApplication.class, args);
-//		logger.info("Hello Spring Boot");
 	}
 
 	@Bean

@@ -1,8 +1,5 @@
 package com.cbash.cardatabase;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
@@ -32,41 +29,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		super.configure(http);
 		String loginPath = "/login";	
-//		AuthenticationManager authMng = authenticationManager();
-//		LoginFilter loginFilter = new LoginFilter(loginPath, authMng);
-//		Class<UsernamePasswordAuthenticationFilter> beforeFilter = UsernamePasswordAuthenticationFilter.class;
-//		AuthenticationFilter authFilter = new AuthenticationFilter();
+		AuthenticationManager authMng = authenticationManager();
+		LoginFilter loginFilter = new LoginFilter(loginPath, authMng);
+		AuthenticationFilter authFilter = new AuthenticationFilter();
 
 		http
 			.csrf().disable().cors()
 			.and()
 			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers(HttpMethod.POST, loginPath).permitAll()
 					.anyRequest().authenticated()
 				.and()
 //					// Filter for the api/login request
-					.addFilterBefore(new LoginFilter(loginPath, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+					.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
 //					// Filter for other requests to check JWT in header
-					.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);	
+					.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);	
 	}
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
-		List<String> allowAllList = new java.util.ArrayList<String>();
-//		String genericPath = "/**";
+		java.util.List<String> allowAllList = new java.util.ArrayList<String>();
 		allowAllList.add("*");
 		
-		
-		config.setAllowedOrigins(Arrays.asList("*"));
-		config.setAllowedHeaders(Arrays.asList("*"));
-		config.setAllowedMethods(Arrays.asList("*"));
+		config.setAllowedOrigins(allowAllList);
+		config.setAllowedHeaders(allowAllList);
+		config.setAllowedMethods(allowAllList);
 		
 		config.setAllowCredentials(true);
-		// TODO : Try without this or not setAllowed* 
 		config.applyPermitDefaultValues();
 		
 		src.registerCorsConfiguration("/**", config);
@@ -76,23 +68,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	 @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		super.configure(auth);
 		auth.userDetailsService(userDetailsService)
 			.passwordEncoder(passwordEncoder());
 	}
-
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//	 	String username = "admin";
-//	 	String encryptedPassword = passwordEncoder().encode("admin");
-//	 	String roles = "Admin";
-//		super.configure(auth);
-//		auth.inMemoryAuthentication()
-//			.passwordEncoder(passwordEncoder())
-//			.withUser(username)
-//			.password(encryptedPassword)
-//			.roles(roles);
-//	}
 
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
