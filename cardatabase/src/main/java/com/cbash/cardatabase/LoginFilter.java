@@ -28,8 +28,13 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest reqst, HttpServletResponse respns)
+	public Authentication attemptAuthentication(
+			HttpServletRequest reqst, HttpServletResponse respns)
 			throws AuthenticationException, IOException, ServletException {	
+<<<<<<< HEAD
+=======
+		
+>>>>>>> development
 		AccountCredentials credtls = new ObjectMapper()
 				.readValue(
 						reqst.getInputStream(), 
@@ -46,8 +51,15 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter
 	}
 
 	@Override
+<<<<<<< HEAD
 	protected void successfulAuthentication(HttpServletRequest reqst, HttpServletResponse respns, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
+=======
+	protected void successfulAuthentication(
+			HttpServletRequest reqst, HttpServletResponse respns,
+			FilterChain chain, Authentication auth
+			) throws IOException, ServletException {
+>>>>>>> development
 		AuthenticationService.addToken(respns, auth.getName());
 	}
 	

@@ -25,6 +25,13 @@
 
 	<dependencies>
 	
+		<!-- H2 DB only for testing. -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+	
 		<!-- JSON Web Token (JWT) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -86,6 +93,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -97,6 +105,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 	</dependencies>
 
 	<build>
