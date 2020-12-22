@@ -65,14 +65,6 @@ public class AuthenticationService {
 						);
 		}
 		return null;
-	}
-	
-/** 
- * TODO Create an authentication function that receive the POST parameters from login
- * and change SecurityConfig Class for permitAll requests to Login and remove
- * or comment addFilterBefore, is work try to do in the LoginFilter.
-**/
-//	@RequestMapping(value="/login",  method=RequestMethod.POST)
-	
+	}	
 	
 }

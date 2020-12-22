@@ -41,9 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, loginPath).permitAll()
 					.anyRequest().authenticated()
 				.and()
-//					// Filter for the api/login request
+					// Filter for the api/login request
 					.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
-//					// Filter for other requests to check JWT in header
+					// Filter for other requests to check JWT in header
 					.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);	
 	}
 

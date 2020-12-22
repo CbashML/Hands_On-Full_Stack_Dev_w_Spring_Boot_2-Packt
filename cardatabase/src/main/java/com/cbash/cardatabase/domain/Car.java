@@ -32,6 +32,10 @@ public class Car {
 		this.price = price;
 		this.owner = owner;
 	}
+	
+	public long getId() {
+		return id;
+	}
 
 	public Owner getOwner() {
 		return owner;
