@@ -62,9 +62,5 @@ public class AuthenticationService {
 						);
 		}
 		return null;
-	}	
-<<<<<<< HEAD
-=======
-	
->>>>>>> development
+	}
 }

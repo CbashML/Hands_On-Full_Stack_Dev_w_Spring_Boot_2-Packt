@@ -40,15 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, loginPath).permitAll()
 					.anyRequest().authenticated()
 				.and()
-<<<<<<< HEAD
-//					// Filter for the api/login request
-					.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
-//					// Filter for other requests to check JWT in header
-=======
 					// Filter for the api/login request
 					.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
 					// Filter for other requests to check JWT in header
->>>>>>> development
 					.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);	
 	}
 
@@ -58,11 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CorsConfiguration config = new CorsConfiguration();
 		java.util.List<String> allowAllList = new java.util.ArrayList<String>();
 		allowAllList.add("*");
-		
-<<<<<<< HEAD
-		
-=======
->>>>>>> development
+
 		config.setAllowedOrigins(allowAllList);
 		config.setAllowedHeaders(allowAllList);
 		config.setAllowedMethods(allowAllList);
