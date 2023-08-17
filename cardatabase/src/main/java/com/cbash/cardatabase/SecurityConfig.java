@@ -5,12 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.http.HttpMethod;
-
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -41,9 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, loginPath).permitAll()
 					.anyRequest().authenticated()
 				.and()
+<<<<<<< HEAD
+//					// Filter for the api/login request
+					.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
+//					// Filter for other requests to check JWT in header
+=======
 					// Filter for the api/login request
 					.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
 					// Filter for other requests to check JWT in header
+>>>>>>> development
 					.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);	
 	}
 
@@ -54,6 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		java.util.List<String> allowAllList = new java.util.ArrayList<String>();
 		allowAllList.add("*");
 		
+<<<<<<< HEAD
+		
+=======
+>>>>>>> development
 		config.setAllowedOrigins(allowAllList);
 		config.setAllowedHeaders(allowAllList);
 		config.setAllowedMethods(allowAllList);
