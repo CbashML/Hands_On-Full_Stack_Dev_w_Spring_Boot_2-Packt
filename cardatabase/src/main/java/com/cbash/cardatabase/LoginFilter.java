@@ -22,45 +22,37 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter 
 {
-	public LoginFilter(String url, AuthenticationManager authManager) {
+	public LoginFilter(String url, AuthenticationManager authenticationManager) {
 		super(new AntPathRequestMatcher(url));
-		setAuthenticationManager(authManager);
+		setAuthenticationManager(authenticationManager);
 	}
 
 	@Override
 	public Authentication attemptAuthentication(
-			HttpServletRequest reqst, HttpServletResponse respns)
+			HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {	
-<<<<<<< HEAD
-=======
 		
->>>>>>> development
-		AccountCredentials credtls = new ObjectMapper()
+		AccountCredentials credentials = new ObjectMapper()
 				.readValue(
-						reqst.getInputStream(), 
+						request.getInputStream(),
 						AccountCredentials.class
 						);
 
 		return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(
-							credtls.getUsername(),
-							credtls.getPassword(),
+							credentials.getUsername(),
+							credentials.getPassword(),
 							Collections.emptyList()
 							)
 				);
 	}
 
 	@Override
-<<<<<<< HEAD
-	protected void successfulAuthentication(HttpServletRequest reqst, HttpServletResponse respns, FilterChain chain,
-			Authentication auth) throws IOException, ServletException {
-=======
 	protected void successfulAuthentication(
-			HttpServletRequest reqst, HttpServletResponse respns,
-			FilterChain chain, Authentication auth
+			HttpServletRequest request, HttpServletResponse response,
+			FilterChain filterChain, Authentication authentication
 			) throws IOException, ServletException {
->>>>>>> development
-		AuthenticationService.addToken(respns, auth.getName());
+		AuthenticationService.addToken(response, authentication.getName());
 	}
 	
 }

@@ -27,13 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailServiceImpl userDetailsService;
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		String loginPath = "/login";	
 		AuthenticationManager authMng = authenticationManager();
 		LoginFilter loginFilter = new LoginFilter(loginPath, authMng);
 		AuthenticationFilter authFilter = new AuthenticationFilter();
 
-		http
+		httpSecurity
 			.csrf().disable().cors()
 			.and()
 			.authorizeRequests()
@@ -76,8 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	 @Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService)
+	protected void configure(AuthenticationManagerBuilder authenticationManager) throws Exception {
+		authenticationManager.userDetailsService(userDetailsService)
 			.passwordEncoder(passwordEncoder());
 	}
 

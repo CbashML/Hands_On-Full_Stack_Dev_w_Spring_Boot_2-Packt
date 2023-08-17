@@ -1,20 +1,23 @@
 package com.cbash.cardatabase.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.GenerationType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@javax.persistence.Entity
-@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Owner {
 
-	@javax.persistence.Id
-	@javax.persistence.GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long ownerid;
 	private String firstname, lastname;
 
-	@com.fasterxml.jackson.annotation.JsonIgnore
-	@javax.persistence.OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private java.util.List<Car> cars;
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<Car> cars;
 
 	public Owner() {
 	}

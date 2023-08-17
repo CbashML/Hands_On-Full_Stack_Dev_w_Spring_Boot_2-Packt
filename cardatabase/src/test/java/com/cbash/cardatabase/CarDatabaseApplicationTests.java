@@ -13,7 +13,7 @@ import com.cbash.cardatabase.web.CarController;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class CardatabaseApplicationTests {
+class CarDatabaseApplicationTests {
 
 	@Autowired
 	private CarController carCntllr;
