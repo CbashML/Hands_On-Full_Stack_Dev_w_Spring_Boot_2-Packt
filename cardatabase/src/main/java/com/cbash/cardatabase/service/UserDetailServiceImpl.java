@@ -1,6 +1,8 @@
 package com.cbash.cardatabase.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,19 +11,21 @@ import org.springframework.stereotype.Service;
 import com.cbash.cardatabase.domain.User;
 import com.cbash.cardatabase.domain.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UserRepository urepository;
+	private UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User currentUser = urepository.findByUsername(username);
-		java.util.List<org.springframework.security.core.GrantedAuthority> 
-			grantedAuthorityList = org.springframework.security.core.authority.AuthorityUtils
+		User currentUser = userRepository.findByUsername(username);
+		List<GrantedAuthority>
+			grantedAuthorityList = AuthorityUtils
 										.createAuthorityList(currentUser.getRole());
-		UserDetails SecUsrDtlsUser = 
+		UserDetails SecurityUserDetails =
 						new org.springframework.security.core.userdetails.User(
 							username, 
 							currentUser.getPassword(),
@@ -31,7 +35,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 							true, 
 							grantedAuthorityList
 						);
-		return SecUsrDtlsUser;
+		return SecurityUserDetails;
 	}
 
 }

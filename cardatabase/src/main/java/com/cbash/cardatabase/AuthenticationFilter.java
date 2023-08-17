@@ -17,14 +17,14 @@ import com.cbash.cardatabase.service.AuthenticationService;
 public class AuthenticationFilter extends GenericFilterBean {
 
 	@Override
-	public void doFilter(ServletRequest reqst, ServletResponse respns, FilterChain filterChain)
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
 		Authentication auth = AuthenticationService
-								.getAuthentication((HttpServletRequest) reqst);
+								.getAuthentication((HttpServletRequest) request);
 		SecurityContextHolder
 			.getContext().setAuthentication(auth);
 		
-		filterChain.doFilter(reqst, respns);
+		filterChain.doFilter(request, response);
 	}
 	
 }

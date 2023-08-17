@@ -22,7 +22,7 @@ public class AuthenticationService {
 	static final String PREFIX = "Bearer";
 	
 	// Add token to Authorization header
-	static public void addToken(HttpServletResponse respns, String username) {
+	static public void addToken(HttpServletResponse response, String username) {
 		String JwtToken = Jwts.builder().setSubject(username)
 				
 				.setExpiration(
@@ -33,17 +33,17 @@ public class AuthenticationService {
 				
 				.compact();
 		
-		respns.addHeader("Authorization", PREFIX + " " + JwtToken);
+		response.addHeader("Authorization", PREFIX + " " + JwtToken);
 		
-		respns.addHeader(
+		response.addHeader(
 					"Access-Control-Expose-Headers",
 					"Authorization"
 				);
 	}
 	
 	// Get token from Authorization header
-	static public Authentication getAuthentication(HttpServletRequest reqst) {
-		String token = reqst.getHeader("Authorization");
+	static public Authentication getAuthentication(HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
 		
 		if (token != null) {
 			String user = Jwts.parser()
