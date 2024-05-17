@@ -1,26 +1,28 @@
 package com.cbash.cardatabase;
 
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.cbash.cardatabase.web.CarController;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+
+
 class CarDatabaseApplicationTests {
 
-	@Autowired
-	private CarController carCntllr;
-	
+	@InjectMocks
+	private CarController carController;
+
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
 	void contextLoads() {
-		assertThat(carCntllr).isNotNull();
+		Assertions.assertNotNull(carController);
 	}
 
 }

@@ -17,7 +17,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-
+		<project.parent.version>2.3.4.RELEASE</project.parent.version>
 		<!-- # Hibernate properties - <property name="hibernate.hbm2ddl.auto">create-drop</property> 
 			<property name="hibernate.dialect">org.hibernate.dialect.MySQL8InnoDBDialect</property> -->
 	</properties>
@@ -105,6 +105,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 
@@ -113,7 +119,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${project.parent.version}</version>
+				<configuration>
+					<mainClass>com.cbash.cardatabase.CarDatabaseApplication</mainClass>
+				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
